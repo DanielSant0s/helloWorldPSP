@@ -21,9 +21,9 @@ void printer(const char *msg)
 
 void test3()
 {
-	thread t1(printer, "Hello 1");
-	thread t2(printer, "Hello 2");
-	thread t3(printer, "Goodbye!");
+	std::thread t1(printer, "Hello 1");
+	std::thread t2(printer, "Hello 2");
+	std::thread t3(printer, "Goodbye!");
 
 	t1.join();
 	t2.join();

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 #include <pspkernel.h>
 #include <pspdebug.h>
@@ -10,13 +11,26 @@
 PSP_MODULE_INFO("Hello", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
 
+std::mutex mprinter;
+void printer(const char *msg)
+{
+	mprinter.lock();
+	std::cout<<msg<<std::endl;
+	mprinter.unlock();
+}
+
+void test3()
+{
+	thread t1(printer, "Hello 1");
+	thread t2(printer, "Hello 2");
+	thread t3(printer, "Goodbye!");
+
+	t1.join();
+	t2.join();
+	t3.join();
+}
+
 int main()
 {
-    using namespace std::chrono_literals;
-    std::cout << "Hello waiter\n" << std::flush;
-    auto start = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end-start;
-    std::cout << "Waited " << elapsed.count() << " ms\n";
+    test3()
 }

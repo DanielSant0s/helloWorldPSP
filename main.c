@@ -12,7 +12,7 @@
 #define VERS    1
 #define REVS    0
  
-PSP_MODULE_INFO("RetroArch", 0, 1, 1);
+PSP_MODULE_INFO("SkyTest", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
  
  
